@@ -85,7 +85,11 @@ public class DataKeeper {
     }
 
     public void put(String key, String value) {
-        sp.edit().putString(key, value).commit();
+        if (value == null) {
+            sp.edit().remove(key).commit();
+        } else {
+            sp.edit().putString(key, value).commit();
+        }
     }
 
     public void put(String key, boolean value) {
