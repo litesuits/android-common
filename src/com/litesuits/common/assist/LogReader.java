@@ -47,7 +47,7 @@ public class LogReader extends Thread {
         Log.i(TAG, "log reader(catcher) is running..---------------------------");
         BufferedWriter bw = null;
         try {
-            mLogcatProc = Runtime.getRuntime().exec("logcat " + packageName + ":V");
+            mLogcatProc = Runtime.getRuntime().exec("logcat " + packageName + ":D");
             mReader = new BufferedReader(new InputStreamReader(mLogcatProc.getInputStream()));
 
             // 打印系统信息。
