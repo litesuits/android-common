@@ -73,7 +73,7 @@ public class DataKeeper {
     public void put(String key, Object ser, Cipher cipher) {
         try {
             if (ser == null) {
-                put(key, (String) null);
+                sp.edit().remove(key).commit();
             } else {
                 byte[] bytes = ByteUtil.objectToByte(ser);
                 if (cipher != null) bytes = cipher.encrypt(bytes);
