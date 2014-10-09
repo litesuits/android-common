@@ -35,12 +35,14 @@ public class TelephoneInfo {
         String IMSI = tm.getSubscriberId();
         //IMSI前面三位460是国家号码，其次的两位是运营商代号，00、02是中国移动，01是联通，03是电信。
         String providerName = null;
-        if (IMSI.startsWith("46000") || IMSI.startsWith("46002")) {
-            providerName = "中国移动";
-        } else if (IMSI.startsWith("46001")) {
-            providerName = "中国联通";
-        } else if (IMSI.startsWith("46003")) {
-            providerName = "中国电信";
+        if (IMSI != null) {
+            if (IMSI.startsWith("46000") || IMSI.startsWith("46002")) {
+                providerName = "中国移动";
+            } else if (IMSI.startsWith("46001")) {
+                providerName = "中国联通";
+            } else if (IMSI.startsWith("46003")) {
+                providerName = "中国电信";
+            }
         }
         sb.append(providerName + "  手机号：" + tm.getLine1Number() + " IMSI是：" + IMSI);
         sb.append("\nDeviceID(IMEI)       :" + tm.getDeviceId());
