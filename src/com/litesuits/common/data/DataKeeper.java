@@ -52,11 +52,12 @@ public class DataKeeper {
     public Object get(String key, Cipher cipher) {
         try {
             String hex = get(key, (String) null);
-            Log.i(TAG, key + " : " + hex);
             if (hex == null) return null;
             byte[] bytes = HexUtil.decodeHex(hex.toCharArray());
             if (cipher != null) bytes = cipher.decrypt(bytes);
-            return ByteUtil.byteToObject(bytes);
+            Object obj = ByteUtil.byteToObject(bytes);
+            Log.i(TAG, key + " get: " + obj);
+            return obj;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,6 +73,7 @@ public class DataKeeper {
 
     public void put(String key, Object ser, Cipher cipher) {
         try {
+            Log.i(TAG, key + " put: " + ser);
             if (ser == null) {
                 sp.edit().remove(key).commit();
             } else {
