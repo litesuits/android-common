@@ -1,4 +1,4 @@
-package com.litesuits.common.assist;
+package com.litesuits.common.utils;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;
@@ -12,8 +12,8 @@ import java.util.Date;
  * @author MaTianyu
  * @date 2014-09-25
  */
-public class AndroidInfo {
-    private static final String TAG = AndroidInfo.class.getSimpleName();
+public class AndroidUtil {
+    private static final String TAG = AndroidUtil.class.getSimpleName();
 
     public static String getMacAddress(Context context) {
         //wifi mac地址

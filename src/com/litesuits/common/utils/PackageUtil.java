@@ -1,4 +1,4 @@
-package com.litesuits.common.assist;
+package com.litesuits.common.utils;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author MaTianyu
  * @date 14-11-7
  */
-public class Packager {
+public class PackageUtil {
 
     /**
      * 直接安装

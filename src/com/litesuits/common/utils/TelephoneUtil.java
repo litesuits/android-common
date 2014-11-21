@@ -1,4 +1,4 @@
-package com.litesuits.common.assist;
+package com.litesuits.common.utils;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
@@ -11,9 +11,9 @@ import java.util.Date;
  * @author MaTianyu
  * @date 2014-09-25
  */
-public class TelephoneInfo {
+public class TelephoneUtil {
 
-    private static final String TAG = TelephoneInfo.class.getSimpleName();
+    private static final String TAG = TelephoneUtil.class.getSimpleName();
 
     public static String getIMEI(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
