@@ -3,6 +3,7 @@ package com.litesuits.common.utils;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +24,24 @@ public class NotificationUtil {
     private static final String TAG   = NotificationUtil.class.getSimpleName();
 
     public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri) {
+        notification(context, icon, ticker, title, msg, uri, null);
+    }
+
+    public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri,
+                                    String activityClassName) {
         Log.i(TAG, "notiry uri :" + uri);
+        // 设置通知的事件消息
+        Intent intent = null;
+        if (uri != null) {
+            intent = new Intent(Intent.ACTION_VIEW, uri);
+        } else if (activityClassName != null) {
+            intent = new Intent();
+            intent.setComponent(new ComponentName(context.getPackageName(), activityClassName));
+        } else {
+            intent = new Intent();
+            intent.setPackage(context.getPackageName());
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 
             Notification.Builder builder = new Notification.Builder(context);
@@ -39,7 +57,6 @@ public class NotificationUtil {
                     0, 100, 300
             });
             builder.setAutoCancel(true);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
             Notification baseNF = builder.build();
             //发出状态栏通知
@@ -56,8 +73,6 @@ public class NotificationUtil {
             notification.ledARGB = Color.GREEN;
             notification.ledOnMS = 5000; //闪光时间，毫秒
 
-            // 设置通知的事件消息
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             PendingIntent contentItent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setLatestEventInfo(context, title, msg, contentItent);
 
