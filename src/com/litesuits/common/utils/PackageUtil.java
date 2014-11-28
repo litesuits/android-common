@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -64,6 +65,13 @@ public class PackageUtil {
      * 启动应用
      */
     public static boolean startAppByPackageName(Context context, String packageName) {
+        return startAppByPackageName(context, packageName, null);
+    }
+
+    /**
+     * 启动应用
+     */
+    public static boolean startAppByPackageName(Context context, String packageName, Map<String, String> param) {
         android.content.pm.PackageInfo pi = null;
         try {
             pi = context.getPackageManager().getPackageInfo(packageName, 0);
@@ -79,11 +87,17 @@ public class PackageUtil {
                 String className = ri.activityInfo.name;
 
                 Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
                 ComponentName cn = new ComponentName(packageName1, className);
 
                 intent.setComponent(cn);
+                if (param != null) {
+                    for (Map.Entry<String, String> en : param.entrySet()) {
+                        intent.putExtra(en.getKey(), en.getValue());
+                    }
+                }
                 context.startActivity(intent);
                 return true;
             }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.DecimalFormat;
 
 /**
  * @author MaTianyu
@@ -32,6 +33,21 @@ public class FileUtil {
             }
 
         }
+    }
+
+    public static String formatFileSizeToString(long fileLen) {// 转换文件大小
+        DecimalFormat df = new DecimalFormat("#.00");
+        String fileSizeString = "";
+        if (fileLen < 1024) {
+            fileSizeString = df.format((double) fileLen) + "B";
+        } else if (fileLen < 1048576) {
+            fileSizeString = df.format((double) fileLen / 1024) + "K";
+        } else if (fileLen < 1073741824) {
+            fileSizeString = df.format((double) fileLen / 1048576) + "M";
+        } else {
+            fileSizeString = df.format((double) fileLen / 1073741824) + "G";
+        }
+        return fileSizeString;
     }
 
     /***

@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import com.litesuits.android.log.Log;
-import com.litesuits.common.assist.Check;
 
 import java.util.ArrayList;
 
@@ -93,12 +92,12 @@ public class NotificationUtil {
                 public void run() {
                     lightLed(context, colorOx, startOffMS, durationMS);
                 }
-            }, startOffMS + durationMS);
+            }, (startOffMS + durationMS) * i);
         }
     }
 
     public static void lightLed(Context context, ArrayList<LightPattern> patterns) {
-        if (Check.isEmpty(patterns)) return;
+        if (patterns == null) return;
         for (LightPattern lp : patterns) {
             lightLed(context, lp.argb, lp.startOffMS, lp.durationMS);
         }
