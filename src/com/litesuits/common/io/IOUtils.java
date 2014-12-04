@@ -16,6 +16,7 @@
  */
 package com.litesuits.common.io;
 
+import android.os.Build;
 import com.litesuits.common.io.stream.*;
 
 import java.io.*;
@@ -904,7 +905,7 @@ public class IOUtils {
      * @throws java.io.IOException  if an I/O error occurs (never occurs)
      */
     public static String toString(byte[] input, String encoding) throws IOException {
-        return new String(input, Charsets.toCharset(encoding));
+        return new String(input, encoding);
     }
 
     // readLines
@@ -1063,7 +1064,7 @@ public class IOUtils {
      * @since 2.3
      */
     public static InputStream toInputStream(String input, Charset encoding) {
-        return new ByteArrayInputStream(input.getBytes(Charsets.toCharset(encoding)));
+        return new ByteArrayInputStream(StringCodingUtils.getBytes(input, Charsets.toCharset(encoding)));
     }
 
     /**
@@ -1082,7 +1083,7 @@ public class IOUtils {
      * @since 1.1
      */
     public static InputStream toInputStream(String input, String encoding) throws IOException {
-        byte[] bytes = input.getBytes(Charsets.toCharset(encoding));
+        byte[] bytes = StringCodingUtils.getBytes(input,Charsets.toCharset(encoding));
         return new ByteArrayInputStream(bytes);
     }
 
@@ -1139,7 +1140,11 @@ public class IOUtils {
      */
     public static void write(byte[] data, Writer output, Charset encoding) throws IOException {
         if (data != null) {
-            output.write(new String(data, Charsets.toCharset(encoding)));
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD){
+                output.write(new String(data, Charsets.toCharset(encoding).name()));
+            }else{
+                output.write(new String(data, Charsets.toCharset(encoding)));
+            }
         }
     }
 
@@ -1222,7 +1227,7 @@ public class IOUtils {
      */
     public static void write(char[] data, OutputStream output, Charset encoding) throws IOException {
         if (data != null) {
-            output.write(new String(data).getBytes(Charsets.toCharset(encoding)));
+            output.write(StringCodingUtils.getBytes(new String(data), Charsets.toCharset(encoding)));
         }
     }
 
@@ -1379,7 +1384,7 @@ public class IOUtils {
      */
     public static void write(String data, OutputStream output, Charset encoding) throws IOException {
         if (data != null) {
-            output.write(data.getBytes(Charsets.toCharset(encoding)));
+            output.write(StringCodingUtils.getBytes(data, Charsets.toCharset(encoding)));
         }
     }
 
@@ -1469,7 +1474,7 @@ public class IOUtils {
     @Deprecated
     public static void write(StringBuffer data, OutputStream output, String encoding) throws IOException {
         if (data != null) {
-            output.write(data.toString().getBytes(Charsets.toCharset(encoding)));
+            output.write(StringCodingUtils.getBytes(data.toString(), Charsets.toCharset(encoding)));
         }
     }
 
@@ -1517,9 +1522,9 @@ public class IOUtils {
         Charset cs = Charsets.toCharset(encoding);
         for (Object line : lines) {
             if (line != null) {
-                output.write(line.toString().getBytes(cs));
+                output.write(StringCodingUtils.getBytes(line.toString(), cs));
             }
-            output.write(lineEnding.getBytes(cs));
+            output.write(StringCodingUtils.getBytes(lineEnding,cs));
         }
     }
 

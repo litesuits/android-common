@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.*;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Base64;
+import com.litesuits.common.assist.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -1,6 +1,7 @@
 package com.litesuits.common.data.cipher;
 
-import android.util.Base64;
+
+import com.litesuits.common.assist.Base64;
 
 /**
  * @author MaTianyu

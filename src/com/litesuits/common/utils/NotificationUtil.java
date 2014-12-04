@@ -31,14 +31,13 @@ public class NotificationUtil {
                                     String activityClassName) {
         Log.i(TAG, "notiry uri :" + uri);
         // 设置通知的事件消息
-        Intent intent = null;
+        Intent intent = new Intent();
         if (uri != null) {
-            intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setData(uri);
         } else if (activityClassName != null) {
-            intent = new Intent();
             intent.setComponent(new ComponentName(context.getPackageName(), activityClassName));
-        } else {
-            intent = new Intent();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
             intent.setPackage(context.getPackageName());
         }
 

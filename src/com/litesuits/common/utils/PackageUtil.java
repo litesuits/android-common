@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.widget.Toast;
 
 import java.io.File;
@@ -77,7 +78,9 @@ public class PackageUtil {
             pi = context.getPackageManager().getPackageInfo(packageName, 0);
             Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
             resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            resolveIntent.setPackage(pi.packageName);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+                resolveIntent.setPackage(pi.packageName);
+            }
 
             List<ResolveInfo> apps = context.getPackageManager().queryIntentActivities(resolveIntent, 0);
 
@@ -101,7 +104,7 @@ public class PackageUtil {
                 context.startActivity(intent);
                 return true;
             }
-        } catch (NameNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context.getApplicationContext(), "启动失败",
                     Toast.LENGTH_LONG).show();
