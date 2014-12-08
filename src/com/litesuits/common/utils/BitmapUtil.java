@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.*;
 import android.net.Uri;
 import android.provider.MediaStore;
-import com.litesuits.common.assist.Base64;
+import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,7 +52,7 @@ public class BitmapUtil {
     }
 
     public static boolean saveBitmap(Bitmap bitmap, File file) {
-        if(bitmap == null) return false;
+        if (bitmap == null) return false;
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -82,6 +82,7 @@ public class BitmapUtil {
     /**
      * 把bitmap转换成String
      * 将图片保存到本地
+     *
      * @return
      */
     public static String bitmapToString(Bitmap bitmap) {
@@ -146,32 +147,24 @@ public class BitmapUtil {
         return bitmap;
     }
 
-
-    public static Intent buildPickIntent(Uri uri, int outputX, int outputY) {
-        return buildPickIntent(uri, 1, 1, outputX, outputY);
-    }
-
-    public static Intent buildPickIntent(Uri uri, int aspectX, int aspectY, int outputX, int outputY) {
-        Intent intent = new Intent("android.intent.action.PICK");
-        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        intent.putExtra("output", uri);
+    public static Intent buildGalleryPickIntent(Uri saveTo, int aspectX, int aspectY,
+                                                int outputX, int outputY, boolean returnData) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
         intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);
-        intent.putExtra("aspectX", aspectX);// 裁剪框比例
+        intent.putExtra("output", saveTo);
+        intent.putExtra("aspectX", aspectX);
         intent.putExtra("aspectY", aspectY);
-        intent.putExtra("outputX", outputX);// 输出图片大小
+        intent.putExtra("outputX", outputX);
         intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", returnData);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-
         return intent;
     }
 
-    public static Intent buildCropIntent(Uri uri, int outputX, int outputY) {
-        return buildCropIntent(uri, uri, 1, 1, outputX, outputY, false);
-    }
-
-    public static Intent buildCropIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY, int outputX, int outputY,
-                                         boolean returnData) {
+    public static Intent buildImagePickIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY,
+                                              int outputX,  int outputY,  boolean returnData) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uriFrom, "image/*");
         intent.putExtra("crop", "true");
