@@ -61,3 +61,8 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **ShellUtil**：       shell 命令工具类
 - **TelephoneUtil**：   电话工具类，手机号、运营商、IMEI、IMSI等信息
 - **VibrateUtil**：     震动工具类，调用系统震动功能
+
+
+## QQ Group: 47357508
+##个人开源站点 ：http://litesuits.com
+
