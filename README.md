@@ -10,7 +10,7 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **2. 体积超小**：不到50K！
 - **3. 纯 纯 纯**：绝没有重量级封装，就是单纯！
 
-其中包括位图、MD5、Hex、File、Byte、计数器、均值器，存储器、吐司，日志，校验，系统，弹窗，提示等基础功能
+其中包括shell命令，静默安装，bitmap处理，文件操作，加密存储器，计数器，均值器，吐司，日志，校验，提示，网络监测等基础功能，以及一些Base64、MD5、Hex、Byte、Number、Dialog、Filed、Class、Package、Telephone、Random等工具类。
 
 1. async包：异步与并发
 -----
