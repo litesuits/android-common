@@ -4,17 +4,22 @@ some utils, common calsses, base workers.
 
 LiteCommon项目简介
 ---
-LiteCommon
+LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特点：
+
+- **1. 通用性强**：只有常用，才可入席。
+- **2. 体积超小**：不到50K！
+- **3. 纯 纯 纯**：绝没有重量级封装，就是单纯！
+
 其中包括位图、MD5、Hex、File、Byte、计数器、均值器，存储器、吐司，日志，校验，系统，弹窗，提示等基础功能
 
 1. async包：异步与并发
----
+-----
 - **AsyncExecutor**：   一个简单的可以自定义线程池并发执行器
 2. log包：日志
----
+-----
 - **Log**：             一个和android系统日志类同名(方便快速替换)的Log工具类，不同的是这个Log具有一键开关功能，方便快速开发打开调试模式。
 3. assit包：辅助
----
+-----
 - **Averager**：        均值器， 添加一些列数字或时间戳，获取其均值。
 - **Base64**：          Base64， 兼容到android1.0版本的Base64编解码器。
 - **Check**：           检测类， 检测各种对象是否为null或empty。
@@ -25,11 +30,11 @@ LiteCommon
 - **TimeCounter**：     计时器， 顾名思义，统计耗时用的。
 - **Toastor**：         吐司， 解决多次连续弹出提示问题，可只弹出最后一次，也可连续弹出轻量级提示。
 4. data包：数据处理
----
-- **DataKeeper**：       轻量级持久化工具，封装的SharedPreferences，可加密，更简单、安全的存储（持久化）、获取数字、布尔值、甚至对象。
+-----
+- **DataKeeper**：       加密存储器，持久化工具，可加密，更简单、安全的存储（持久化）、获取数字、布尔值、甚至对象。
 - **chipher包**：        放置加解密辅助类。
 5. io包：文件与IO
----
+-----
 - **Charsets**：         字节编码类
 - **FilenameUtils**：    通用的文件名字、路径操作工具类
 - **FileUtils**：        通用文件操作工具类
@@ -37,7 +42,7 @@ LiteCommon
 - **StringCodingUtils**：字符串编码工具类
 - **stream包**：         IO流操作辅助类
 6. utils包：常用工具类
----
+-----
 - **AndroidUtil**：     android信息， 获取android手机品牌、mac、imei、imsi等信息
 - **AppUtil**：         app工具， 检测是否前台运行，服务是否运行中等
 - **BitmapUtil**：      位图操作， 拍照，裁剪，圆角，byte、string互转，压缩，放缩，保存等
