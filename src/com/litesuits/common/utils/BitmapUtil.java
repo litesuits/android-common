@@ -2,9 +2,11 @@ package com.litesuits.common.utils;
 
 import android.content.Intent;
 import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Base64;
+import com.litesuits.common.assist.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,6 +14,63 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class BitmapUtil {
+
+    /**
+     * convert Bitmap to byte array
+     */
+    public static byte[] bitmapToByte(Bitmap b) {
+        ByteArrayOutputStream o = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, o);
+        return o.toByteArray();
+    }
+
+    /**
+     * convert byte array to Bitmap
+     */
+    public static Bitmap byteToBitmap(byte[] b) {
+        return (b == null || b.length == 0) ? null : BitmapFactory.decodeByteArray(b, 0, b.length);
+    }
+
+    /**
+     * 把bitmap转换成Base64编码String
+     */
+    public static String bitmapToString(Bitmap bitmap) {
+        return Base64.encodeToString(bitmapToByte(bitmap), Base64.DEFAULT);
+    }
+
+    /**
+     * convert Drawable to Bitmap
+     */
+    public static Bitmap drawableToBitmap(Drawable d) {
+        return d == null ? null : ((BitmapDrawable) d).getBitmap();
+    }
+
+    /**
+     * convert Bitmap to Drawable
+     */
+    public static Drawable bitmapToDrawable(Bitmap b) {
+        return b == null ? null : new BitmapDrawable(b);
+    }
+
+    /**
+     * scale image
+     */
+    public static Bitmap scaleImageTo(Bitmap org, int newWidth, int newHeight) {
+        return scaleImage(org, (float) newWidth / org.getWidth(), (float) newHeight / org.getHeight());
+    }
+
+    /**
+     * scale image
+     */
+    public static Bitmap scaleImage(Bitmap org, float scaleWidth, float scaleHeight) {
+        if (org == null) {
+            return null;
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        return Bitmap.createBitmap(org, 0, 0, org.getWidth(), org.getHeight(), matrix, true);
+    }
+
     public static Bitmap toRoundCorner(Bitmap bitmap) {
         int height = bitmap.getHeight();
         int width = bitmap.getHeight();
@@ -77,22 +136,7 @@ public class BitmapUtil {
         return saveBitmap(bitmap, new File(absPath));
     }
 
-    private final static int compressVal = 75;
-
-    /**
-     * 把bitmap转换成String
-     * 将图片保存到本地
-     *
-     * @return
-     */
-    public static String bitmapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, compressVal, baos);
-
-        byte[] b = baos.toByteArray();
-        return Base64.encodeToString(b, Base64.DEFAULT);
-    }
-
+    
     /**
      * 计算图片的缩放值
      * 如果图片的原始高度或者宽度大与我们期望的宽度和高度，我们需要计算出缩放比例的数值。否则就不缩放。
@@ -164,7 +208,7 @@ public class BitmapUtil {
     }
 
     public static Intent buildImagePickIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY,
-                                              int outputX,  int outputY,  boolean returnData) {
+                                              int outputX, int outputY, boolean returnData) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uriFrom, "image/*");
         intent.putExtra("crop", "true");

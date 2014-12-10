@@ -21,6 +21,9 @@ public class AsyncExecutor {
     }
 
     public AsyncExecutor(ExecutorService threadPool) {
+        if (AsyncExecutor.threadPool != null) {
+            shutdownNow();
+        }
         if (threadPool == null) {
             AsyncExecutor.threadPool = Executors.newCachedThreadPool();
         } else {
@@ -31,7 +34,6 @@ public class AsyncExecutor {
     public static synchronized void shutdownNow() {
         if (threadPool != null && !threadPool.isShutdown()) threadPool.shutdownNow();
         threadPool = null;
-        handler = null;
     }
 
     /**
