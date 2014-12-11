@@ -32,11 +32,11 @@ public class AndroidUtil {
         sb.append("--------------------  系统信息  " + time + "  --------------------");
         sb.append("\nBOARD        :" + android.os.Build.BOARD);
         sb.append("\nDEVICE       :" + android.os.Build.DEVICE);
-        sb.append("\nMANUFACTURER :" + android.os.Build.MANUFACTURER);
         sb.append("\nPRODUCT      :" + android.os.Build.PRODUCT);
+        sb.append("\nMANUFACTURER :" + android.os.Build.MANUFACTURER);
         sb.append("\nCODENAME     :" + android.os.Build.VERSION.CODENAME);
         sb.append("\nRELEASE      :" + android.os.Build.VERSION.RELEASE);
-        sb.append("\nSDK          :" + android.os.Build.VERSION.SDK);
+        //sb.append("\nSDK          :" + android.os.Build.VERSION.SDK);
         return sb.toString();
     }
 

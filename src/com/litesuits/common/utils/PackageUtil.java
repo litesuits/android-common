@@ -249,16 +249,16 @@ public class PackageUtil {
             return false;
         }
 
-        int pid = android.os.Process.myPid();
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> processInfoList = manager.getRunningAppProcesses();
-        if (processInfoList == null) {
-            return true;
-        }
-
-        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
-            if (processInfo.pid == pid && processName.equals(processInfo.processName)) {
-                return true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            List<ActivityManager.RunningAppProcessInfo> processInfoList = manager.getRunningAppProcesses();
+            if (processInfoList != null) {
+                int pid = android.os.Process.myPid();
+                for (ActivityManager.RunningAppProcessInfo processInfo : processInfoList) {
+                    if (processInfo.pid == pid && processName.equals(processInfo.processName)) {
+                        return true;
+                    }
+                }
             }
         }
         return false;

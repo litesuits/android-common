@@ -3,5 +3,16 @@
           package="com.litesuits.common"
           android:versionCode="1"
           android:versionName="1.0.0">
-    <uses-sdk android:minSdkVersion="1" android:targetSdkVersion="19"/>
+    <uses-sdk android:minSdkVersion="1"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:icon="@android:drawable/ic_media_play" android:label="LiteCommon">
+        <activity android:name="com.litesuits.android.SamplesActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

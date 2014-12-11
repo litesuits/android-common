@@ -136,7 +136,7 @@ public class BitmapUtil {
         return saveBitmap(bitmap, new File(absPath));
     }
 
-    
+
     /**
      * 计算图片的缩放值
      * 如果图片的原始高度或者宽度大与我们期望的宽度和高度，我们需要计算出缩放比例的数值。否则就不缩放。
