@@ -63,10 +63,13 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **VibrateUtil**：     震动工具类，调用系统震动功能
 
 
-点击加入QQ群: [47357508](http://jq.qq.com/?_wv=1027&k=Z7l0Av)
+关于作者（About Author）
 -----
-我的开源 ：[http://litesuits.com](http://litesuits.com/)
 我的博客 ：[http://vmatianyu.cn](http://vmatianyu.cn/)
+
+我的开源站点 ：[http://litesuits.com](http://litesuits.com/)
+
+点击加入QQ群: [47357508](http://jq.qq.com/?_wv=1027&k=Z7l0Av)
 
 我的论坛帖子
 -----
