@@ -7,8 +7,8 @@ LiteCommon项目简介
 LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特点：
 
 - **1. 通用性强**：只有常用，才可入席。
-- **2. 体积超小**：不到50K！
-- **3. 纯 纯 纯**：绝没有重量级封装，就是单纯！
+- **2. 体积超小**：不到50K！加入增强IO包混淆后70K！
+- **3. 纯  纯  纯**：类间独立，单挑大梁，极少耦合，就是单纯！
 
 其中包括shell命令，静默安装，bitmap处理，文件操作，加密存储器，计数器，均值器，吐司，日志，校验，提示，网络监测等基础功能，以及一些Base64、MD5、Hex、Byte、Number、Dialog、Filed、Class、Package、Telephone、Random等工具类。
 
@@ -63,6 +63,29 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **VibrateUtil**：     震动工具类，调用系统震动功能
 
 
-## QQ Group: 47357508
-##个人开源站点 ：http://litesuits.com
+点击加入QQ群: [47357508](http://jq.qq.com/?_wv=1027&k=Z7l0Av)
+-----
+我的开源站点 ：[http://litesuits.com](http://litesuits.com/)
+-----
+我的博客站点 ：[http://vmatianyu.cn](http://vmatianyu.cn/)
+-----
 
+我的论坛帖子
+-----
+[LiteHttp：极简且智能的 android HTTP 框架库 (专注于网络)](http://www.eoeandroid.com/thread-326584-1-1.html)
+
+[LiteOrm：极简且智能的 android ORM 框架库 (专注数据库)](url=http://www.eoeandroid.com/thread-538203-1-1.html)
+
+[LiteAsync：强势的 android 异步 框架库 (专注异步与并发)](url=http://www.eoeandroid.com/thread-538212-1-1.html)
+
+[LiteCommon：丰富通用的android工具类库(专注于基础组件)](url=http://www.eoeandroid.com/thread-538212-1-1.html)
+
+我的博客帖子
+-----
+[关于java的线程并发和锁的总结](url=http://www.vmatianyu.cn/summary-of-the-java-thread-concurrency-and-locking.html)
+
+[android开发技术经验总结60条](url=http://www.vmatianyu.cn/summarization-of-technical-experience.html)
+
+[聚划算android客户端1期教训总结](url=http://www.vmatianyu.cn/poly-effective-client-1-issues-lessons.html)
+
+[移动互联网产品设计小结](url=http://www.vmatianyu.cn/summary-of-mobile-internet-product-design.html)
