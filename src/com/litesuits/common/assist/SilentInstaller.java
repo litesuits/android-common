@@ -9,7 +9,7 @@ import com.litesuits.common.utils.ShellUtil;
 import java.io.File;
 
 /**
- * @author MaTianyu
+ * modify form <a href="http://www.trinea.cn" target="_blank">Trinea</a>
  * @date 2014-12-10
  */
 public class SilentInstaller {

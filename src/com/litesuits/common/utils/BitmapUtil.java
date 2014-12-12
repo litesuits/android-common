@@ -41,15 +41,15 @@ public class BitmapUtil {
     /**
      * convert Drawable to Bitmap
      */
-    public static Bitmap drawableToBitmap(Drawable d) {
-        return d == null ? null : ((BitmapDrawable) d).getBitmap();
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        return drawable == null ? null : ((BitmapDrawable) drawable).getBitmap();
     }
 
     /**
      * convert Bitmap to Drawable
      */
-    public static Drawable bitmapToDrawable(Bitmap b) {
-        return b == null ? null : new BitmapDrawable(b);
+    public static Drawable bitmapToDrawable(Bitmap bitmap) {
+        return bitmap == null ? null : new BitmapDrawable(bitmap);
     }
 
     /**

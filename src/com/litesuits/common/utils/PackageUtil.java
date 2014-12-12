@@ -1,6 +1,5 @@
 package com.litesuits.common.utils;
 
-import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * @author MaTianyu
@@ -236,33 +234,5 @@ public class PackageUtil {
         }
         return false;
     }
-
-    /**
-     * 校验应用进程名字
-     *
-     * @param context
-     * @param processName
-     * @return
-     */
-    public static boolean isNamedProcess(Context context, String processName) {
-        if (context == null || processName == null) {
-            return false;
-        }
-
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-            List<ActivityManager.RunningAppProcessInfo> processInfoList = manager.getRunningAppProcesses();
-            if (processInfoList != null) {
-                int pid = android.os.Process.myPid();
-                for (ActivityManager.RunningAppProcessInfo processInfo : processInfoList) {
-                    if (processInfo.pid == pid && processName.equals(processInfo.processName)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
 
 }

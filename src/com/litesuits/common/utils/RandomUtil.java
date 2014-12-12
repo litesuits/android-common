@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * 随机工具类
- * @author MaTianyu
+ * modify form <a href="http://www.trinea.cn" target="_blank">Trinea</a>
  * @date 2014-12-10
  */
 public class RandomUtil {

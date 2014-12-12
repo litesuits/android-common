@@ -46,7 +46,7 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 7. utils包：常用工具类
 -----
 - **AndroidUtil**：     android信息， 获取android手机品牌、商家、版本号等信息
-- **AppUtil**：         app工具， 检测是否前台运行，服务是否运行中等
+- **AppUtil**：         app工具， 检测是否前台运行
 - **BitmapUtil**：      位图操作， 拍照，裁剪，圆角，byte、string互转，压缩，放缩，保存等
 - **ByteUtil**：        byte工具类
 - **ClassUtil**：       类工具， 新建实例，判断类的类型等
@@ -59,7 +59,6 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **NumberUtil**：      数字工具类，各种数字安全转化
 - **PackageUtil**：     应用程序类，打开、安装，卸载，启动应用以及获取应用信息
 - **RandomUtil**：      随机工具类，产生随机string或数字，随机洗牌等
-- **SerializeUtil**：   序列化工具类
 - **ShellUtil**：       shell 命令工具类
 - **TelephoneUtil**：   电话工具类，手机号、运营商、IMEI、IMSI等信息
 - **VibrateUtil**：     震动工具类，调用系统震动功能

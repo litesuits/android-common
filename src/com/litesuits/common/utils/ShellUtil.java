@@ -7,9 +7,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * modify from internet.
- *
- * @author MaTianyu
+ * modify form <a href="http://www.trinea.cn" target="_blank">Trinea</a>
  * @date 2014-12-10
  */
 public class ShellUtil {
