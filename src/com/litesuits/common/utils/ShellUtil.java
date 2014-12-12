@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * modify form <a href="http://www.trinea.cn" target="_blank">Trinea</a>
+ *  @author trinea
  * @date 2014-12-10
  */
 public class ShellUtil {
