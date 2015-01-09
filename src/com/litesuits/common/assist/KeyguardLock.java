@@ -13,14 +13,14 @@ import com.litesuits.android.log.Log;
  * @date 2014-12-12
  */
 public class KeyguardLock {
-    KeyguardManager              mKeyguardManager;
-    KeyguardManager.KeyguardLock mKeyguardLock;
+    KeyguardManager              keyguardManager;
+    KeyguardManager.KeyguardLock keyguardLock;
 
     public KeyguardLock(Context context, String tag) {
         //获取系统服务
-        mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         //初始化键盘锁，可以锁定或解开键盘锁
-        mKeyguardLock = mKeyguardManager.newKeyguardLock(tag);
+        keyguardLock = keyguardManager.newKeyguardLock(tag);
     }
 
     /**
@@ -31,7 +31,7 @@ public class KeyguardLock {
             Log.e("Log : ", "can not call isKeyguardLocked if SDK_INT < 16 ");
             return false;
         } else {
-            return mKeyguardManager.isKeyguardLocked();
+            return keyguardManager.isKeyguardLocked();
         }
     }
 
@@ -43,26 +43,42 @@ public class KeyguardLock {
             Log.e("Log : ", "can not call isKeyguardSecure if SDK_INT < 16 ");
             return false;
         } else {
-            return mKeyguardManager.isKeyguardSecure();
+            return keyguardManager.isKeyguardSecure();
         }
     }
 
     public boolean inKeyguardRestrictedInputMode() {
-        return mKeyguardManager.inKeyguardRestrictedInputMode();
+        return keyguardManager.inKeyguardRestrictedInputMode();
     }
 
     public void disableKeyguard() {
-        mKeyguardLock.disableKeyguard();
+        keyguardLock.disableKeyguard();
     }
 
     public void reenableKeyguard() {
-        mKeyguardLock.reenableKeyguard();
+        keyguardLock.reenableKeyguard();
     }
 
     public void release() {
-        if (mKeyguardLock != null) {
+        if (keyguardLock != null) {
             //禁用显示键盘锁定
-            mKeyguardLock.reenableKeyguard();
+            keyguardLock.reenableKeyguard();
         }
+    }
+
+    public KeyguardManager getKeyguardManager() {
+        return keyguardManager;
+    }
+
+    public void setKeyguardManager(KeyguardManager keyguardManager) {
+        this.keyguardManager = keyguardManager;
+    }
+
+    public KeyguardManager.KeyguardLock getKeyguardLock() {
+        return keyguardLock;
+    }
+
+    public void setKeyguardLock(KeyguardManager.KeyguardLock keyguardLock) {
+        this.keyguardLock = keyguardLock;
     }
 }
