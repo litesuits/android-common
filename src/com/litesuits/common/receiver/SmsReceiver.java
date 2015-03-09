@@ -13,6 +13,8 @@ import java.util.List;
  * Call requires API level 4
  * <uses-permission android:name="android.permission.RECEIVE_SMS"/>
  *
+ * action: android.provider.Telephony.SMS_RECEIVED
+ *
  * @author MaTianyu
  * @date 14-7-23
  */

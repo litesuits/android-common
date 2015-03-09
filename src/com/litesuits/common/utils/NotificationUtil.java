@@ -20,15 +20,14 @@ import java.util.ArrayList;
  * @date 2014-11-19
  */
 public class NotificationUtil {
-    private static       int    LedID = 0;
-    private static final String TAG   = NotificationUtil.class.getSimpleName();
+    private static int LedID = 0;
+    private static final String TAG = NotificationUtil.class.getSimpleName();
 
     public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri) {
         notification(context, icon, ticker, title, msg, uri, null);
     }
 
-    public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri,
-                                    String activityClassName) {
+    public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri, String activityClassName) {
         Log.i(TAG, "notiry uri :" + uri);
         // 设置通知的事件消息
         Intent intent = new Intent();
@@ -47,14 +46,12 @@ public class NotificationUtil {
             builder.setSmallIcon(icon);
 
             builder.setContentTitle(title);
-            builder.setTicker(msg);
+            builder.setTicker(ticker);
             builder.setContentText(msg);
 
             builder.setDefaults(Notification.DEFAULT_SOUND);
             builder.setLights(0xFFFFFF00, 0, 2000);
-            builder.setVibrate(new long[]{
-                    0, 100, 300
-            });
+            builder.setVibrate(new long[]{0, 100, 300});
             builder.setAutoCancel(true);
             builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
             Notification baseNF = builder.build();
@@ -63,8 +60,7 @@ public class NotificationUtil {
             nm.notify(0, baseNF);
         } else {
             // 创建一个NotificationManager的引用
-            NotificationManager notificationManager = (NotificationManager)
-                    context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
             // 定义Notification的各种属性
             Notification notification = new Notification(icon, ticker, System.currentTimeMillis());
             notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_SHOW_LIGHTS;
@@ -73,8 +69,8 @@ public class NotificationUtil {
             notification.ledOnMS = 5000; //闪光时间，毫秒
 
             PendingIntent contentItent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            notification.tickerText = ticker;
             notification.setLatestEventInfo(context, title, msg, contentItent);
-
             // 把Notification传递给NotificationManager
             notificationManager.notify(0, notification);
         }
@@ -96,9 +92,10 @@ public class NotificationUtil {
         nm.cancel(LedID);
     }
 
-    public static void lightLed(final Context context, final int colorOx,
-                                final int startOffMS, final int durationMS, int repeat) {
-        if (repeat < 1) repeat = 1;
+    public static void lightLed(final Context context, final int colorOx, final int startOffMS, final int durationMS, int repeat) {
+        if (repeat < 1) {
+            repeat = 1;
+        }
         Handler handler = new Handler(Looper.getMainLooper());
         for (int i = 0; i < repeat; i++) {
             handler.postDelayed(new Runnable() {
@@ -111,14 +108,16 @@ public class NotificationUtil {
     }
 
     public static void lightLed(Context context, ArrayList<LightPattern> patterns) {
-        if (patterns == null) return;
+        if (patterns == null) {
+            return;
+        }
         for (LightPattern lp : patterns) {
             lightLed(context, lp.argb, lp.startOffMS, lp.durationMS);
         }
     }
 
     public static class LightPattern {
-        public int argb       = 0;
+        public int argb = 0;
         public int startOffMS = 0;
         public int durationMS = 0;
 
