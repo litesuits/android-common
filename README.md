@@ -80,7 +80,7 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 
 [LiteAsync：强势的 android 异步 框架库 (专注异步与并发)](http://www.eoeandroid.com/thread-538212-1-1.html)
 
-[LiteCommon：丰富通用的android工具类库(专注于基础组件)](http://www.eoeandroid.com/thread-538212-1-1.html)
+[LiteCommon：丰富通用的android工具类库(专注于基础组件)](http://www.eoeandroid.com/thread-557246-1-1.html)
 
 我的博客帖子
 -----
