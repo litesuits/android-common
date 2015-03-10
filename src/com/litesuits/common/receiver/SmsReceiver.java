@@ -3,6 +3,7 @@ package com.litesuits.common.receiver;
 import android.content.*;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import com.litesuits.android.log.Log;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Call requires API level 4
  * <uses-permission android:name="android.permission.RECEIVE_SMS"/>
- *
+ * <p/>
  * action: android.provider.Telephony.SMS_RECEIVED
  *
  * @author MaTianyu
@@ -29,18 +30,43 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            Log.i(TAG, "收到广播：" + intent.getAction());
+            if (Log.isPrint) {
+                Log.i(TAG, "收到广播：" + intent.getAction());
+                Bundle bundle = intent.getExtras();
+                for (String key : bundle.keySet()) {
+                    Log.i(TAG, key + " : " + bundle.get(key));
+                }
+            }
             Object[] pdus = (Object[]) intent.getExtras().get("pdus");
+            String fromAddress = null;
+            String serviceCenterAddress = null;
             if (pdus != null) {
                 String msgBody = "";
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
                     for (Object obj : pdus) {
                         SmsMessage sms = SmsMessage.createFromPdu((byte[]) obj);
                         msgBody += sms.getMessageBody();
+                        fromAddress = sms.getOriginatingAddress();
+                        serviceCenterAddress = sms.getServiceCenterAddress();
+
+                        if (smsListener != null) {
+                            smsListener.onMessage(sms);
+                        }
+                        //Log.i(TAG, "getDisplayMessageBody：" + sms.getDisplayMessageBody());
+                        //Log.i(TAG, "getDisplayOriginatingAddress：" + sms.getDisplayOriginatingAddress());
+                        //Log.i(TAG, "getEmailBody：" + sms.getEmailBody());
+                        //Log.i(TAG, "getEmailFrom：" + sms.getEmailFrom());
+                        //Log.i(TAG, "getMessageBody：" + sms.getMessageBody());
+                        //Log.i(TAG, "getOriginatingAddress：" + sms.getOriginatingAddress());
+                        //Log.i(TAG, "getPseudoSubject：" + sms.getPseudoSubject());
+                        //Log.i(TAG, "getServiceCenterAddress：" + sms.getServiceCenterAddress());
+                        //Log.i(TAG, "getIndexOnIcc：" + sms.getIndexOnIcc());
+                        //Log.i(TAG, "getMessageClass：" + sms.getMessageClass());
+                        //Log.i(TAG, "getUserData：" + new String(sms.getUserData()));
                     }
                 }
                 if (smsListener != null) {
-                    smsListener.onMessage(msgBody);
+                    smsListener.onMessage(msgBody, fromAddress, serviceCenterAddress);
                 }
             }
         } catch (Exception e) {
@@ -68,8 +94,10 @@ public class SmsReceiver extends BroadcastReceiver {
         }
     }
 
-    public static interface SmsListener {
-        public void onMessage(String msg);
+    public static abstract class SmsListener {
+        public abstract void onMessage(String msg, String fromAddress, String serviceCenterAddress);
+
+        public void onMessage(SmsMessage msg) {}
     }
 
     /**
@@ -79,7 +107,7 @@ public class SmsReceiver extends BroadcastReceiver {
      * @param phone
      * @param msg
      */
-    public void sendMsgToPhone(String phone, String msg) {
+    public static void sendMsgToPhone(String phone, String msg) {
         Log.i(TAG, "发送手机：" + phone + " ,内容： " + msg);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
             SmsManager manager = SmsManager.getDefault();
@@ -99,7 +127,7 @@ public class SmsReceiver extends BroadcastReceiver {
      * @param phone
      * @param msg
      */
-    public void saveMsgToSystem(Context context, String phone, String msg) {
+    public static void saveMsgToSystem(Context context, String phone, String msg) {
         ContentValues values = new ContentValues();
         values.put("date", System.currentTimeMillis());
         //阅读状态 
