@@ -115,6 +115,8 @@ public class SmsReceiver extends BroadcastReceiver {
             for (String txt : texts) {
                 manager.sendTextMessage(phone, null, txt, null, null);
             }
+        }else{
+            Log.e(TAG, "发送失败，系统版本低于DONUT，" + phone + " ,内容： " + msg);
         }
 
     }

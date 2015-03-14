@@ -1,6 +1,7 @@
 package com.litesuits.common.service;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
@@ -48,7 +49,11 @@ public class NotificationService extends NotificationListenerService {
 
 
     public static void startNotificationListenSettings(Context context) {
-        context.startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
+        Intent intent = new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS);
+        if(!(context instanceof Activity)) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        context.startActivity(intent);
     }
 
     public static boolean isNotificationListenEnable(Context context) {
@@ -132,7 +137,7 @@ public class NotificationService extends NotificationListenerService {
     public void printCurrentNotifications() {
         StatusBarNotification[] ns = getActiveNotifications();
         for (StatusBarNotification n : ns) {
-            Log.i(TAG, n.getPackageName() + ": " + n.getNotification().tickerText);
+            Log.i(TAG, String.format("%20s",n.getPackageName()) + ": " + n.getNotification().tickerText);
         }
     }
 
