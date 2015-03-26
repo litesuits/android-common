@@ -33,6 +33,7 @@ public class KeyguardLock {
         } else {
             return keyguardManager.isKeyguardLocked();
         }
+
     }
 
     /**
