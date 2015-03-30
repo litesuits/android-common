@@ -86,10 +86,6 @@ public class PhoneReceiver extends BroadcastReceiver {
                     }
                 }
             }
-
-            if (state != null) {
-
-            }
         }
     }
 

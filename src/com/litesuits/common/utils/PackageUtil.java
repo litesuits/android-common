@@ -1,5 +1,6 @@
 package com.litesuits.common.utils;
 
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +26,7 @@ public class PackageUtil {
     /**
      * App installation location flags of android system
      */
-    public static final int APP_INSTALL_AUTO     = 0;
+    public static final int APP_INSTALL_AUTO = 0;
     public static final int APP_INSTALL_INTERNAL = 1;
     public static final int APP_INSTALL_EXTERNAL = 2;
 
@@ -71,6 +72,25 @@ public class PackageUtil {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+
+    /**
+     * 获取指定程序信息
+     */
+    public static ActivityManager.RunningTaskInfo getTopRunningTask(Context context) {
+        try {
+            ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            // 得到当前正在运行的任务栈
+            List<ActivityManager.RunningTaskInfo> runningTasks = am.getRunningTasks(1);
+            // 得到前台显示的任务栈
+            ActivityManager.RunningTaskInfo runningTaskInfo = runningTasks.get(0);
+            return runningTaskInfo;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static int getAppVersionCode(Context context) {
         if (context != null) {
