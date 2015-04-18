@@ -24,7 +24,11 @@ public class CpuUtil {
      * 打印 CPU 相关信息
      */
     public static String printCpuInfo() {
-        return FileUtil.getFileOutputString(CPU_INFO_PATH);
+        String info = FileUtil.getFileOutputString(CPU_INFO_PATH);
+        if (Log.isPrint) {
+            Log.i(TAG, "_______  CPU信息:   \n" + info);
+        }
+        return info;
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.litesuits.common.utils;
 
-import com.litesuits.android.log.Log;
-
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
@@ -86,9 +84,6 @@ public class FileUtil {
                 sb.append("\n").append(line);
             }
             bufferedReader.close();
-            if (Log.isPrint) {
-                Log.i(TAG, path + ": " + sb.toString());
-            }
             return sb.toString();
         } catch (IOException e) {
             e.printStackTrace();

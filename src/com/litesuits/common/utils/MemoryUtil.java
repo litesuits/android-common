@@ -56,14 +56,25 @@ public class MemoryUtil {
      * VmallocChunk:     205828 kB
      */
     public static String printMemInfo() {
-        return FileUtil.getFileOutputString(MEM_INFO_PATH);
+        String info = FileUtil.getFileOutputString(MEM_INFO_PATH);
+        if (Log.isPrint) {
+            Log.i(TAG, "_______  内存信息:   \n" + info);
+        }
+        return info;
     }
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static ActivityManager.MemoryInfo getMemoryInfo(Context context) {
+    public static ActivityManager.MemoryInfo getActMemoryInfo(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         am.getMemoryInfo(mi);
+        return mi;
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+    public static ActivityManager.MemoryInfo printActMemoryInfo(Context context) {
+        ActivityManager.MemoryInfo mi = getActMemoryInfo(context);
         if (Log.isPrint) {
             StringBuilder sb = new StringBuilder();
             sb.append("_______  内存信息:  ");
