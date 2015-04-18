@@ -3,6 +3,8 @@ package com.litesuits.common.utils;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import java.util.List;
 
@@ -26,6 +28,22 @@ public class AppUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * 获取App包 信息版本号
+     * @param context
+     * @return
+     */
+    private PackageInfo getPackageInfo(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return packageInfo;
     }
 
 

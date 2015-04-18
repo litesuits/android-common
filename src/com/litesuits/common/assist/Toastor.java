@@ -18,7 +18,7 @@ public class Toastor {
 
     public Toast getSingletonToast(int resId) {
         if (mToast == null) {
-            mToast = Toast.makeText(context, resId, Toast.LENGTH_LONG);
+            mToast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
         }else{
             mToast.setText(resId);
         }
@@ -27,7 +27,7 @@ public class Toastor {
 
     public Toast getSingletonToast(String text) {
         if (mToast == null) {
-            mToast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+            mToast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
         }else{
             mToast.setText(text);
         }

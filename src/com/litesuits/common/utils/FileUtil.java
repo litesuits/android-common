@@ -1,9 +1,8 @@
 package com.litesuits.common.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.litesuits.android.log.Log;
+
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 
@@ -12,6 +11,8 @@ import java.text.DecimalFormat;
  * @date 2014-08-10
  */
 public class FileUtil {
+
+    private static final String TAG = FileUtil.class.getSimpleName();
 
     public static void fileChannelCopy(File s, File t) {
         FileInputStream fi = null;
@@ -72,4 +73,26 @@ public class FileUtil {
         return filename;
     }
 
+
+    /**
+     * 读取指定文件的输出
+     */
+    public static String getFileOutputString(String path) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(path), 8192);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append("\n").append(line);
+            }
+            bufferedReader.close();
+            if (Log.isPrint) {
+                Log.i(TAG, path + ": " + sb.toString());
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
