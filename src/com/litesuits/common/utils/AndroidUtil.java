@@ -57,7 +57,7 @@ public class AndroidUtil {
         sb.append("\nBRAND              :").append(Build.BRAND);
         sb.append("\nMODEL              :").append(Build.MODEL);
         sb.append("\nRELEASE            :").append(Build.VERSION.RELEASE);
-        sb.append("\nSDK_INT            :").append(Build.VERSION.SDK);
+        sb.append("\nSDK            :").append(Build.VERSION.SDK);
 
         sb.append("\n_______ OTHER _______");
         sb.append("\nBOARD              :").append(Build.BOARD);
