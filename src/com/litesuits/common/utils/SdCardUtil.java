@@ -7,6 +7,7 @@ import android.os.StatFs;
 import com.litesuits.android.log.Log;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * @author MaTianyu
@@ -42,6 +43,7 @@ public class SdCardUtil {
      */
     public static String getSDCardPath() {
         String cmd = "cat /proc/mounts";
+        String sdcard = null;
         Runtime run = Runtime.getRuntime();// 返回与当前 Java 应用程序相关的运行时对象
         BufferedReader bufferedReader = null;
         try {
@@ -54,8 +56,9 @@ public class SdCardUtil {
                     && lineStr.contains(".android_secure")) {
                     String[] strArray = lineStr.split(" ");
                     if (strArray.length >= 5) {
-                        String sdcard = strArray[1].replace("/.android_secure", "");
-                        //return sdcard;
+                        sdcard = strArray[1].replace("/.android_secure", "");
+                        Log.i(TAG, "find sd card path:   " + sdcard);
+                        return sdcard;
                     }
                 }
                 if (p.waitFor() != 0 && p.exitValue() == 1) {
@@ -74,14 +77,16 @@ public class SdCardUtil {
                 e.printStackTrace();
             }
         }
-        return Environment.getExternalStorageDirectory().getPath();
+        sdcard = Environment.getExternalStorageDirectory().getPath();
+        Log.i(TAG, "not find sd card path return default:   " + sdcard);
+        return sdcard;
     }
 
     /**
      * 查看所有的sd路径
      */
-    public static String getSDCardPathEx() {
-        String mount = "";
+    public static ArrayList<String> getSDCardPathEx() {
+        ArrayList<String> list = new ArrayList<String>();
         try {
             Runtime runtime = Runtime.getRuntime();
             Process proc = runtime.exec("mount");
@@ -101,12 +106,12 @@ public class SdCardUtil {
                 if (line.contains("fat")) {
                     String columns[] = line.split(" ");
                     if (columns.length > 1) {
-                        mount = mount.concat("*" + columns[1] + "\n");
+                        list.add("*" + columns[1]);
                     }
                 } else if (line.contains("fuse")) {
                     String columns[] = line.split(" ");
                     if (columns.length > 1) {
-                        mount = mount.concat(columns[1] + "\n");
+                        list.add(columns[1]);
                     }
                 }
             }
@@ -115,15 +120,18 @@ public class SdCardUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return mount;
+        return list;
     }
 
-    //获取当前路径，可用空间
+    /**
+     * 获取当前路径，可用空间
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static long getAvailableSize(String path) {
         try {
             File base = new File(path);
             StatFs stat = new StatFs(base.getPath());
-            return stat.getBlockSizeLong() * ((long) stat.getAvailableBlocksLong());
+            return stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
         } catch (Exception e) {
             e.printStackTrace();
         }

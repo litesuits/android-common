@@ -162,7 +162,7 @@ public class TelephoneUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(TAG, teleInfo);
+        Log.i(TAG, "MTK: " + teleInfo);
         return teleInfo;
     }
 
@@ -202,7 +202,7 @@ public class TelephoneUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(TAG, teleInfo);
+        Log.i(TAG, "MTK2: " + teleInfo);
         return teleInfo;
     }
 
@@ -238,7 +238,7 @@ public class TelephoneUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(TAG, teleInfo);
+        Log.i(TAG, "Qualcomm: " + teleInfo);
         return teleInfo;
     }
 
@@ -273,7 +273,7 @@ public class TelephoneUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(TAG, teleInfo);
+        Log.i(TAG, "Spreadtrum: " + teleInfo);
         return teleInfo;
     }
 }
