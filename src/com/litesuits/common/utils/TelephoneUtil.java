@@ -245,7 +245,7 @@ public class TelephoneUtil {
     /**
      * 获取 展讯 神机的双卡 IMSI、IMSI 信息
      */
-    private static TeleInfo getSpreadtrumTeleInfo(Context context) {
+    public static TeleInfo getSpreadtrumTeleInfo(Context context) {
         TeleInfo teleInfo = new TeleInfo();
         try {
 
