@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
+ * Get SD card info.
+ *
  * @author MaTianyu
  * @date 2015-04-19
  */
@@ -17,29 +19,29 @@ public class SdCardUtil {
     private static final String TAG = SdCardUtil.class.getSimpleName();
 
     /**
-     * 获取 {@link android.os.StatFs}
+     * Get {@link android.os.StatFs}.
      */
     public static StatFs getStatFs(String path) {
         return new StatFs(path);
     }
 
     /**
-     * 获取手机自身内存路径
+     * Get phone data path.
      */
-    public static String getPhoneCardPath() {
+    public static String getDataPath() {
         return Environment.getDataDirectory().getPath();
 
     }
 
     /**
-     * 获取sd卡路径
+     * Get SD card path.
      */
     public static String getNormalSDCardPath() {
         return Environment.getExternalStorageDirectory().getPath();
     }
 
     /**
-     * 获取sd（外置）卡路径
+     * Get SD card path by CMD.
      */
     public static String getSDCardPath() {
         String cmd = "cat /proc/mounts";
@@ -83,7 +85,7 @@ public class SdCardUtil {
     }
 
     /**
-     * 查看所有的sd路径
+     * Get SD card path list.
      */
     public static ArrayList<String> getSDCardPathEx() {
         ArrayList<String> list = new ArrayList<String>();
@@ -124,7 +126,7 @@ public class SdCardUtil {
     }
 
     /**
-     * 获取当前路径，可用空间
+     * Get available size of SD card.
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static long getAvailableSize(String path) {
@@ -139,7 +141,7 @@ public class SdCardUtil {
     }
 
     /**
-     * 获取 SD card 信息
+     * Get SD card info detail.
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static SDCardInfo getSDCardInfo() {

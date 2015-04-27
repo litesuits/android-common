@@ -1,13 +1,14 @@
 package com.litesuits.common.utils;
 
 import com.litesuits.android.log.Log;
+import com.litesuits.common.assist.Check;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.regex.Pattern;
 
 /**
+ * Get CPU info.
+ *
  * @author MaTianyu
  * @date 2015-04-18
  */
@@ -20,28 +21,77 @@ public class CpuUtil {
     private static final String CPU_FREQ_MAX_PATH = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq";
     private static final String CPU_FREQ_MIN_PATH = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq";
 
+    private static String CPU_NAME;
+    private static int CPU_CORES = 0;
+    private static long CPU_MAX_FREQENCY = 0;
+    private static long CPU_MIN_FREQENCY = 0;
+
     /**
-     * 打印 CPU 相关信息
+     * Print cpu info.
      */
     public static String printCpuInfo() {
         String info = FileUtil.getFileOutputString(CPU_INFO_PATH);
         if (Log.isPrint) {
-            Log.i(TAG, "_______  CPU信息:   \n" + info);
+            Log.i(TAG, "_______  CPU :   \n" + info);
         }
         return info;
     }
 
     /**
-     * 获取 处理器 核数
+     * Get available processors.
      */
     public static int getProcessorsCount() {
         return Runtime.getRuntime().availableProcessors();
     }
 
     /**
-     * 获取CPU名字
+     * Gets the number of cores available in this device, across all processors.
+     * Requires: Ability to peruse the filesystem at "/sys/devices/system/cpu"
+     *
+     * @return The number of cores, or available processors if failed to get result
+     */
+    public static int getCoresNumbers() {
+        if (CPU_CORES != 0) {
+            return CPU_CORES;
+        }
+        //Private Class to display only CPU devices in the directory listing
+        class CpuFilter implements FileFilter {
+            @Override
+            public boolean accept(File pathname) {
+                //Check if filename is "cpu", followed by a single digit number
+                if (Pattern.matches("cpu[0-9]+", pathname.getName())) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        try {
+            //Get directory containing CPU info
+            File dir = new File("/sys/devices/system/cpu/");
+            //Filter to only list the devices we care about
+            File[] files = dir.listFiles(new CpuFilter());
+            //Return the number of cores (virtual CPU devices)
+            CPU_CORES = files.length;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (CPU_CORES < 1) {
+            CPU_CORES = Runtime.getRuntime().availableProcessors();
+        }
+        if (CPU_CORES < 1) {
+            CPU_CORES = 1;
+        }
+        return CPU_CORES;
+    }
+
+    /**
+     * Get CPU name.
      */
     public static String getCpuName() {
+        if (!Check.isEmpty(CPU_NAME)) {
+            return CPU_NAME;
+        }
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(CPU_INFO_PATH), 8192);
             String line = bufferedReader.readLine();
@@ -51,18 +101,18 @@ public class CpuUtil {
                 if (Log.isPrint) {
                     Log.i(TAG, array[1]);
                 }
-                return array[1];
+                CPU_NAME = array[1];
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return CPU_NAME;
     }
 
     /**
-     * 实时获取CPU当前频率
+     * Get current CPU freqency.
      */
-    public static long getCurrentFreq() {
+    public static long getCurrentFreqency() {
         try {
             return Long.parseLong(FileUtil.getFileOutputString(CPU_FREQ_CUR_PATH).trim());
         } catch (Exception e) {
@@ -72,31 +122,37 @@ public class CpuUtil {
     }
 
     /**
-     * 获取CPU最大频率
+     * Get maximum CPU freqency
      */
-    public static long getMaxFreq() {
+    public static long getMaxFreqency() {
+        if (CPU_MAX_FREQENCY > 0) {
+            return CPU_MAX_FREQENCY;
+        }
         try {
-            return Long.parseLong(getCMDOutputString(new String[]{CMD_CAT, CPU_FREQ_MAX_PATH}).trim());
+            CPU_MAX_FREQENCY = Long.parseLong(getCMDOutputString(new String[]{CMD_CAT, CPU_FREQ_MAX_PATH}).trim());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return CPU_MAX_FREQENCY;
     }
 
     /**
-     * 获取CPU最小频率
+     * Get minimum frenqency.
      */
-    public static long getMinFreq() {
+    public static long getMinFreqency() {
+        if (CPU_MIN_FREQENCY > 0) {
+            return CPU_MIN_FREQENCY;
+        }
         try {
-            return Long.parseLong(getCMDOutputString(new String[]{CMD_CAT, CPU_FREQ_MIN_PATH}).trim());
+            CPU_MIN_FREQENCY = Long.parseLong(getCMDOutputString(new String[]{CMD_CAT, CPU_FREQ_MIN_PATH}).trim());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return CPU_MIN_FREQENCY;
     }
 
     /**
-     * 读取指定命令的输出
+     * Get command output string.
      */
     public static String getCMDOutputString(String[] args) {
         try {

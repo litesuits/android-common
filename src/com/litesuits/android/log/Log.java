@@ -11,8 +11,8 @@ public final class Log {
     /**
      * isPrint: print switch, true will print. false not print
      */
-    public static  boolean isPrint    = true;
-    private static String  defaultTag = "Log";
+    public static boolean isPrint = true;
+    private static String defaultTag = "Log";
 
     private Log() {}
 
@@ -78,7 +78,9 @@ public final class Log {
         if (msg != null && msg.length > 0) {
             StringBuilder sb = new StringBuilder();
             for (Object s : msg) {
-                if (msg != null && s != null) sb.append(s.toString());
+                if (msg != null && s != null) {
+                    sb.append(s.toString());
+                }
             }
             return sb.toString();
         }

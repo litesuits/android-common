@@ -8,6 +8,8 @@ import android.text.format.Formatter;
 import com.litesuits.android.log.Log;
 
 /**
+ * Get memory info.
+ *
  * @author MaTianyu
  * @date 2015-04-19
  */
@@ -16,7 +18,8 @@ public class MemoryUtil {
     private static final String MEM_INFO_PATH = "/proc/meminfo";
 
     /**
-     * 打印内存情况
+     * Print memory info. such as:
+     *
      * MemTotal:        1864292 kB
      * MemFree:          779064 kB
      * Buffers:            4540 kB
@@ -63,21 +66,26 @@ public class MemoryUtil {
         return info;
     }
 
+    /**
+     * Get memory info of device.
+     */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static ActivityManager.MemoryInfo getActMemoryInfo(Context context) {
+    public static ActivityManager.MemoryInfo getMemoryInfo(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         am.getMemoryInfo(mi);
         return mi;
     }
 
-
+    /**
+     * Print Memory info.
+     */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static ActivityManager.MemoryInfo printActMemoryInfo(Context context) {
-        ActivityManager.MemoryInfo mi = getActMemoryInfo(context);
+    public static ActivityManager.MemoryInfo printMemoryInfo(Context context) {
+        ActivityManager.MemoryInfo mi = getMemoryInfo(context);
         if (Log.isPrint) {
             StringBuilder sb = new StringBuilder();
-            sb.append("_______  内存信息:  ");
+            sb.append("_______  Memory :   ");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 sb.append("\ntotalMem        :").append(mi.totalMem);
             }
@@ -89,6 +97,9 @@ public class MemoryUtil {
         return mi;
     }
 
+    /**
+     * Get available memory info.
+     */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     public static String getAvailMemory(Context context) {// 获取android当前可用内存大小
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

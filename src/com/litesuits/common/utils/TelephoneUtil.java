@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Get phone info, such as IMEI,IMSI,Number,Sim State, etc.
+ *
  * <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
  *
  * @author MaTianyu
@@ -56,7 +58,7 @@ public class TelephoneUtil {
     }
 
     /**
-     * 获取手机电话相关s信息
+     * Print telephone info.
      */
     public static String printTelephoneInfo(Context context) {
         Date date = new Date(System.currentTimeMillis());
@@ -102,6 +104,7 @@ public class TelephoneUtil {
 
     /**
      * 双卡双待神机IMSI、IMSI、PhoneType信息
+     * <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
      */
     public static class TeleInfo {
         public String imsi_1;
@@ -125,6 +128,8 @@ public class TelephoneUtil {
     }
 
     /**
+     * MTK Phone.
+     *
      * 获取 MTK 神机的双卡 IMSI、IMSI 信息
      */
     public static TeleInfo getMtkTeleInfo(Context context) {
@@ -167,6 +172,8 @@ public class TelephoneUtil {
     }
 
     /**
+     * MTK Phone.
+     *
      * 获取 MTK 神机的双卡 IMSI、IMSI 信息
      */
     public static TeleInfo getMtkTeleInfo2(Context context) {
@@ -207,6 +214,7 @@ public class TelephoneUtil {
     }
 
     /**
+     * Qualcomm Phone.
      * 获取 高通 神机的双卡 IMSI、IMSI 信息
      */
     public static TeleInfo getQualcommTeleInfo(Context context) {
@@ -243,6 +251,8 @@ public class TelephoneUtil {
     }
 
     /**
+     * Spreadtrum Phone.
+     *
      * 获取 展讯 神机的双卡 IMSI、IMSI 信息
      */
     public static TeleInfo getSpreadtrumTeleInfo(Context context) {
