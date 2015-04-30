@@ -62,7 +62,7 @@ public class DialogUtil {
     }
 
     public static Dialog showTips(Context context, String title, String des, String btn, DialogInterface.OnDismissListener dismissListener) {
-        AlertDialog.Builder builder = DialogUtil.dialogBuilder(context, title, des);
+        AlertDialog.Builder builder = dialogBuilder(context, title, des);
         builder.setCancelable(true);
         builder.setPositiveButton(btn, null);
         Dialog dialog = builder.show();
