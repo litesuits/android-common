@@ -19,6 +19,14 @@ public class SdCardUtil {
     private static final String TAG = SdCardUtil.class.getSimpleName();
 
     /**
+     * is sd card available.
+     * @return true if available
+     */
+    public boolean isSdCardAvailable() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
+    /**
      * Get {@link android.os.StatFs}.
      */
     public static StatFs getStatFs(String path) {

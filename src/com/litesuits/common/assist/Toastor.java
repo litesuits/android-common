@@ -34,6 +34,24 @@ public class Toastor {
         return mToast;
     }
 
+    public Toast getSingleLongToast(int resId) {
+        if (mToast == null) {
+            mToast = Toast.makeText(context, resId, Toast.LENGTH_LONG);
+        }else{
+            mToast.setText(resId);
+        }
+        return mToast;
+    }
+
+    public Toast getSingleLongToast(String text) {
+        if (mToast == null) {
+            mToast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+        }else{
+            mToast.setText(text);
+        }
+        return mToast;
+    }
+
     public Toast getToast(int resId) {
         return Toast.makeText(context, resId, Toast.LENGTH_SHORT);
     }
@@ -50,7 +68,6 @@ public class Toastor {
         return Toast.makeText(context, text, Toast.LENGTH_LONG);
     }
 
-
     public void showSingletonToast(int resId) {
         getSingletonToast(resId).show();
     }
@@ -58,6 +75,15 @@ public class Toastor {
 
     public void showSingletonToast(String text) {
         getSingletonToast(text).show();
+    }
+
+    public void showSingleLongToast(int resId) {
+        getSingleLongToast(resId).show();
+    }
+
+
+    public void showSingleLongToast(String text) {
+        getSingleLongToast(text).show();
     }
 
     public void showToast(int resId) {
