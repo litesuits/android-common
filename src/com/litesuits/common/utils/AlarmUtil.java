@@ -6,29 +6,26 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.SystemClock;
 
 /**
- * @author MaTianyu
- * @date 2015-03-26
+ * @author MaTianyu @http://litesuits.com
+ * @date 2015-08-22
  */
-public class PollingUtil {
-
+public class AlarmUtil {
     /**
-     * 开启轮询
+     * 开启定时器
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static void startPolling(Context context, int mills, PendingIntent pendingIntent) {
+    public static void startAlarmIntent(Context context, int triggerAtMillis, PendingIntent pendingIntent) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),
-                mills, pendingIntent);
+        manager.set(AlarmManager.RTC_WAKEUP,triggerAtMillis, pendingIntent);
     }
 
     /**
-     * 停止轮询
+     * 关闭定时器
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static void stopPolling(Context context, PendingIntent pendingIntent) {
+    public static void stopAlarmIntent(Context context, PendingIntent pendingIntent) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
     }
@@ -37,23 +34,22 @@ public class PollingUtil {
      * 开启轮询服务
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static void startPollingService(Context context, int mills, Class<?> cls, String action) {
+    public static void startAlarmService(Context context, int triggerAtMillis, Class<?> cls, String action) {
         Intent intent = new Intent(context, cls);
         intent.setAction(action);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        startPolling(context, mills, pendingIntent);
+        startAlarmIntent(context, triggerAtMillis,pendingIntent);
     }
 
     /**
      * 停止启轮询服务
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public static void stopPollingService(Context context, Class<?> cls, String action) {
+    public static void stopAlarmService(Context context, Class<?> cls, String action) {
         Intent intent = new Intent(context, cls);
         intent.setAction(action);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        stopPolling(context, pendingIntent);
+        stopAlarmIntent(context, pendingIntent);
     }
-
 
 }

@@ -5,7 +5,9 @@ import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import com.litesuits.android.log.Log;
 import com.litesuits.common.assist.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -14,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class BitmapUtil {
+
+    private static final String TAG = BitmapUtil.class.getSimpleName();
 
     /**
      * convert Bitmap to byte array
@@ -83,20 +87,17 @@ public class BitmapUtil {
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(0xff424242);
-        //paint.setColor(Color.TRANSPARENT);
+        //paint.setColor(0xff424242);
+        paint.setColor(Color.TRANSPARENT);
         canvas.drawCircle(width / 2, height / 2, width / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
     }
 
-    public static Bitmap createBitmapThumbnail(Bitmap bitMap, boolean needRecycle) {
+    public static Bitmap createBitmapThumbnail(Bitmap bitMap, boolean needRecycle, int newHeight, int newWidth) {
         int width = bitMap.getWidth();
         int height = bitMap.getHeight();
-        // 设置想要的大小
-        int newWidth = 120;
-        int newHeight = 120;
         // 计算缩放比例
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;
@@ -104,14 +105,15 @@ public class BitmapUtil {
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
         // 得到新的图片
-        Bitmap newBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height,
-                matrix, true);
-        if (needRecycle) bitMap.recycle();
+        Bitmap newBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix, true);
+        if (needRecycle)
+            bitMap.recycle();
         return newBitMap;
     }
 
     public static boolean saveBitmap(Bitmap bitmap, File file) {
-        if (bitmap == null) return false;
+        if (bitmap == null)
+            return false;
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
@@ -136,66 +138,21 @@ public class BitmapUtil {
         return saveBitmap(bitmap, new File(absPath));
     }
 
+    public static Intent buildImageGetIntent(Uri saveTo, int outputX, int outputY, boolean returnData) {
+        return buildImageGetIntent(saveTo, 1, 1, outputX, outputY, returnData);
+    }
 
-    /**
-     * 计算图片的缩放值
-     * 如果图片的原始高度或者宽度大与我们期望的宽度和高度，我们需要计算出缩放比例的数值。否则就不缩放。
-     * heightRatio是图片原始高度与压缩后高度的倍数，
-     * widthRatio是图片原始宽度与压缩后宽度的倍数。
-     * inSampleSize就是缩放值 ，取heightRatio与widthRatio中最小的值。
-     * inSampleSize为1表示宽度和高度不缩放，为2表示压缩后的宽度与高度为原来的1/2(图片为原1/4)。
-     *
-     * @param options
-     * @param reqWidth
-     * @param reqHeight
-     * @return
-     */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee
-            // a final image with both dimensions(尺寸) larger than or equal to the requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+    public static Intent buildImageGetIntent(Uri saveTo, int aspectX, int aspectY,
+                                             int outputX, int outputY, boolean returnData) {
+        Log.i(TAG, "Build.VERSION.SDK_INT : " + Build.VERSION.SDK_INT);
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT < 19) {
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
         }
-
-        return inSampleSize;
-    }
-
-    /**
-     * 根据路径获得图片并压缩返回bitmap用于显示
-     *
-     * @return
-     */
-    public static Bitmap getSmallBitmap(String filePath, int w, int h) {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-
-        //该值设为true那么将不返回实际的bitmap不给其分配内存空间而里面只包括一些解码边界信息即图片大小信息
-        options.inJustDecodeBounds = true;//inJustDecodeBounds设置为true，可以不把图片读到内存中,但依然可以计算出图片的大小
-        BitmapFactory.decodeFile(filePath, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, w, h);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;//重新读入图片，注意这次要把options.inJustDecodeBounds 设为 false
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);// BitmapFactory.decodeFile()按指定大小取得图片缩略图
-        return bitmap;
-    }
-
-    public static Intent buildGalleryPickIntent(Uri saveTo, int aspectX, int aspectY,
-                                                int outputX, int outputY, boolean returnData) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.putExtra("crop", "true");
         intent.putExtra("output", saveTo);
         intent.putExtra("aspectX", aspectX);
         intent.putExtra("aspectY", aspectY);
@@ -207,7 +164,11 @@ public class BitmapUtil {
         return intent;
     }
 
-    public static Intent buildImagePickIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY,
+    public static Intent buildImageCropIntent(Uri uriFrom, Uri uriTo, int outputX, int outputY, boolean returnData) {
+        return buildImageCropIntent(uriFrom, uriTo, 1, 1, outputX, outputY, returnData);
+    }
+
+    public static Intent buildImageCropIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY,
                                               int outputX, int outputY, boolean returnData) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uriFrom, "image/*");
@@ -223,10 +184,59 @@ public class BitmapUtil {
         return intent;
     }
 
-
-    public static Intent buildCaptureIntent(Uri uri) {
+    public static Intent buildImageCaptureIntent(Uri uri) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         return intent;
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        int h = options.outHeight;
+        int w = options.outWidth;
+        int inSampleSize = 0;
+        if (h > reqHeight || w > reqWidth) {
+            float ratioW = (float) w / reqWidth;
+            float ratioH = (float) h / reqHeight;
+            inSampleSize = (int) Math.min(ratioH, ratioW);
+        }
+        inSampleSize = Math.max(1, inSampleSize);
+        return inSampleSize;
+    }
+
+    public static Bitmap getSmallBitmap(String filePath, int reqWidth, int reqHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+
+    public byte[] compressBitmapToBytes(String filePath, int reqWidth, int reqHeight, int quality) {
+        Bitmap bitmap = getSmallBitmap(filePath, reqWidth, reqHeight);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        byte[] bytes = baos.toByteArray();
+        bitmap.recycle();
+        Log.i(TAG, "Bitmap compressed success, size: " + bytes.length);
+        return bytes;
+    }
+
+    public byte[] compressBitmapSmallTo(String filePath, int reqWidth, int reqHeight, int maxLenth) {
+        int quality = 100;
+        byte[] bytes = compressBitmapToBytes(filePath, reqWidth, reqHeight, quality);
+        while (bytes.length > maxLenth && quality > 0) {
+            quality = quality / 2;
+            bytes = compressBitmapToBytes(filePath, reqWidth, reqHeight, quality);
+        }
+        return bytes;
+    }
+
+    public byte[] compressBitmapQuikly(String filePath) {
+        return compressBitmapToBytes(filePath, 480, 800, 50);
+    }
+
+    public byte[] compressBitmapQuiklySmallTo(String filePath, int maxLenth) {
+        return compressBitmapSmallTo(filePath, 480, 800, maxLenth);
     }
 }
