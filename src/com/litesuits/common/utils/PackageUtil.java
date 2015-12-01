@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.widget.Toast;
+import com.litesuits.common.assist.Check;
 
 import java.io.File;
 import java.util.List;
@@ -177,8 +178,25 @@ public class PackageUtil {
     /**
      * 获取已安装的全部应用信息
      */
-    public static List<android.content.pm.PackageInfo> getInsatalledPackages(Context context) {
+    public static List<PackageInfo> getInsatalledPackages(Context context) {
         return context.getPackageManager().getInstalledPackages(0);
+    }
+
+    /**
+     * 获取已安装的全部应用信息
+     */
+    public static boolean isInsatalled(Context context, String pkg) {
+        if (!Check.isEmpty(pkg)) {
+            List<PackageInfo> list = getInsatalledPackages(context);
+            if (!Check.isEmpty(list)) {
+                for (PackageInfo pi : list) {
+                    if (pkg.equalsIgnoreCase(pi.packageName)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

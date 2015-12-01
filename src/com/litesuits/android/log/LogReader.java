@@ -1,6 +1,4 @@
-package com.litesuits.common.assist;
-
-import com.litesuits.android.log.Log;
+package com.litesuits.android.log;
 
 import java.io.*;
 import java.text.DecimalFormat;

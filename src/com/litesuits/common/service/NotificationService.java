@@ -19,11 +19,11 @@ import com.litesuits.android.log.Log;
  * <p/>
  * manifest:
  * <service android:name=".service.NotificationService"
- * android:label="@string/app_name"
- * android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
- * <intent-filter>
- * <action android:name="android.service.notification.NotificationListenerService" />
- * </intent-filter>
+ *  android:label="@string/app_name"
+ *  android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+ *  <intent-filter>
+ *      <action android:name="android.service.notification.NotificationListenerService" />
+ *  </intent-filter>
  * </service>
  *
  * @author MaTianyu

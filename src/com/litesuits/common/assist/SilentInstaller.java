@@ -9,7 +9,7 @@ import com.litesuits.common.utils.ShellUtil;
 import java.io.File;
 
 /**
- * modify form <a href="http://www.trinea.cn" target="_blank">Trinea</a>
+ * modify form Trinea
  *
  * @author trinea
  * @date 2014-12-10

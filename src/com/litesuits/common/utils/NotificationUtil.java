@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import com.litesuits.android.log.Log;
@@ -23,25 +24,39 @@ public class NotificationUtil {
     private static int LedID = 0;
     private static final String TAG = NotificationUtil.class.getSimpleName();
 
-    public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri) {
-        notification(context, icon, ticker, title, msg, uri, null);
-    }
-
-    public static void notification(Context context, int icon, String ticker, String title, String msg, Uri uri, String activityClassName) {
+    public static void notification(Context context, Uri uri,
+                                    int icon, String ticker, String title, String msg) {
         Log.i(TAG, "notiry uri :" + uri);
         // 设置通知的事件消息
         Intent intent = new Intent();
-        if (uri != null) {
-            intent.setData(uri);
-        } else if (activityClassName != null) {
-            intent.setComponent(new ComponentName(context.getPackageName(), activityClassName));
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
             intent.setPackage(context.getPackageName());
         }
+        intent.setData(uri);
+        notification(context, intent, 0, icon, ticker, title, msg);
+    }
 
+    public static void notification(Context context, String activityClass, Bundle bundle,
+                                    int icon, String ticker, String title, String msg) {
+        // 设置通知的事件消息
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+            intent.setPackage(context.getPackageName());
+        }
+        intent.putExtras(bundle);
+        intent.setComponent(new ComponentName(context.getPackageName(), activityClass));
+        notification(context, intent, 0, icon, ticker, title, msg);
+    }
+
+    public static void notification(Context context, Intent intent, int id,
+                                    int icon, String ticker, String title, String msg) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notification(context, pendingIntent, id, icon, ticker, title, msg);
+    }
+
+    public static void notification(Context context, PendingIntent pendingIntent, int id,
+                                    int icon, String ticker, String title, String msg) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-
             Notification.Builder builder = new Notification.Builder(context);
             builder.setSmallIcon(icon);
 
@@ -53,14 +68,20 @@ public class NotificationUtil {
             builder.setLights(0xFFFFFF00, 0, 2000);
             builder.setVibrate(new long[]{0, 100, 300});
             builder.setAutoCancel(true);
-            builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
-            Notification baseNF = builder.build();
+            builder.setContentIntent(pendingIntent);
+            Notification baseNF;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                baseNF = builder.getNotification();
+            } else {
+                baseNF = builder.build();
+            }
             //发出状态栏通知
             NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-            nm.notify(0, baseNF);
+            nm.notify(id, baseNF);
         } else {
             // 创建一个NotificationManager的引用
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context
+                    .getSystemService(android.content.Context.NOTIFICATION_SERVICE);
             // 定义Notification的各种属性
             Notification notification = new Notification(icon, ticker, System.currentTimeMillis());
             notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_SHOW_LIGHTS;
@@ -68,11 +89,10 @@ public class NotificationUtil {
             notification.ledARGB = Color.GREEN;
             notification.ledOnMS = 5000; //闪光时间，毫秒
 
-            PendingIntent contentItent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.tickerText = ticker;
-            notification.setLatestEventInfo(context, title, msg, contentItent);
+            notification.setLatestEventInfo(context, title, msg, pendingIntent);
             // 把Notification传递给NotificationManager
-            notificationManager.notify(0, notification);
+            notificationManager.notify(id, notification);
         }
     }
 
@@ -92,7 +112,8 @@ public class NotificationUtil {
         nm.cancel(LedID);
     }
 
-    public static void lightLed(final Context context, final int colorOx, final int startOffMS, final int durationMS, int repeat) {
+    public static void lightLed(final Context context, final int colorOx, final int startOffMS, final int durationMS,
+                                int repeat) {
         if (repeat < 1) {
             repeat = 1;
         }

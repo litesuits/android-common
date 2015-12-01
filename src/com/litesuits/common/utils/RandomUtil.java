@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * 随机工具类
- * modify form <a href="http://www.trinea.cn" target="_blank">Trinea</a>
+ * modified form Trinea
  * @author trinea
  * @date 2014-12-10
  */

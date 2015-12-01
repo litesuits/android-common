@@ -1,8 +1,6 @@
 package com.litesuits.android.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,24 +24,19 @@ public class TipsView extends LinearLayout {
     }
 
     public TipsView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0, null, null);
-    }
-
-    public TipsView(Context context, AttributeSet attrs, int defStyle) {
-        this(context, attrs, defStyle, null, null);
+        this(context, attrs, null, null);
     }
 
     public TipsView(Context context, View realView, View tipView) {
-        this(context, null, 0, realView, tipView);
+        this(context, null, realView, tipView);
     }
 
     public TipsView(Context context, View realView) {
-        this(context, null, 0, realView, null);
+        this(context, null, realView, null);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public TipsView(Context context, AttributeSet attrs, int defStyle, View realView, View tipView) {
-        super(context, attrs, defStyle);
+    public TipsView(Context context, AttributeSet attrs, View realView, View tipView) {
+        super(context, attrs);
         this.context = context;
         initSelf();
         setRealView(realView);
@@ -77,6 +70,7 @@ public class TipsView extends LinearLayout {
 
     public TipsView setRealView(View realView) {
         if (realView != null) {
+            showRealView();
             this.realView = realView;
             parentView = (ViewGroup) realView.getParent();
             setLayoutParams(realView.getLayoutParams());
@@ -86,7 +80,7 @@ public class TipsView extends LinearLayout {
 
 
     public void showRealView() {
-        if (realView != null) {
+        if (realView != null && parentView != null) {
             if (isThisInLayout) {
                 for (int i = 0, size = parentView.getChildCount(); i < size; i++) {
                     if (parentView.getChildAt(i) == this) {
@@ -99,13 +93,11 @@ public class TipsView extends LinearLayout {
                     }
                 }
             }
-        } else {
-            this.setVisibility(GONE);
         }
     }
 
     public void showTipsView() {
-        if (realView != null) {
+        if (realView != null && parentView != null) {
             if (!isThisInLayout) {
                 for (int i = 0, size = parentView.getChildCount(); i < size; i++) {
                     if (parentView.getChildAt(i) == realView) {
@@ -118,8 +110,6 @@ public class TipsView extends LinearLayout {
                     }
                 }
             }
-        } else {
-            this.setVisibility(VISIBLE);
         }
     }
 

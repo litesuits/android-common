@@ -128,8 +128,8 @@ public class PhoneReceiver extends BroadcastReceiver {
         }
     }
 
-    public static interface PhoneListener {
-        public void onPhoneStateChanged(CallState state, String number);
+    public interface PhoneListener {
+        void onPhoneStateChanged(CallState state, String number);
     }
 
     /**

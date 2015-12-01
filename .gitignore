@@ -34,3 +34,10 @@ proguard/
 .idea/
 
 .DS_Store
+
+
+gen/com/litesuits/common/BuildConfig.java
+
+lint.xml
+
+project.properties
