@@ -1,11 +1,17 @@
 LiteCommon项目简介
 ---
+
+Android Common Utils or Helper.
+
+Such as Log, Averager, Base64, Check, FlashLight, KeyguardLock, LogReader, Network, SilentInstaller, TimeAverager, TimeCounter, Toastor, WakeLock, ScreenReceiver, SmsReceiver, PhoneReceiver, NotificationService, AndroidUtil, AppUtil, BitmapUtil, ByteUtil, ClassUtil, DialogUtil, FieldUtil, FileUtil, HexUtil, MD5Util, NotificationUtil, NumberUtil, PackageUtil, RandomUtil, ShellUtil, TelephoneUtil, VibrateUtil, IOUtils, FileUtils, AsyncExecutor, etc.
+ 
+ 
 LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特点：
-- **1. 通用性强**：只有常用，才可入席。
+- **1. 通用性强**：只有常用、通用才集入。
 - **2. 体积超小**：不到50K！加入增强IO包混淆后70K！
 - **3. 纯  纯  纯**：类间独立，单挑大梁，极少耦合，就是单纯！
 
-其中包括shell命令，静默安装，bitmap处理，文件操作，加密存储器，计数器，均值器，吐司，日志，校验，提示，网络监测等基础功能，以及一些Base64、MD5、Hex、Byte、Number、Dialog、Filed、Class、Package、Telephone、Random等工具类。
+其中包括bitmap处理，文件操作，加密存储器，shell命令，静默安装，计数器，均值器，吐司，日志，校验，提示，网络监测等基础功能，以及一些Base64、MD5、Hex、Byte、Number、Dialog、Filed、Class、Package、Telephone、Random等工具类。
 
 1. async包：异步与并发
 -----
