@@ -78,7 +78,7 @@ public final class Log {
         if (msg != null && msg.length > 0) {
             StringBuilder sb = new StringBuilder();
             for (Object s : msg) {
-                if (msg != null && s != null) {
+                if (s != null) {
                     sb.append(s.toString());
                 }
             }
