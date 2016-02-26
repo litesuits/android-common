@@ -34,3 +34,9 @@ proguard/
 .idea/
 
 .DS_Store
+
+.gradle/
+.idea/
+build/
+android-common.iml
+gen/
