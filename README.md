@@ -45,10 +45,13 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **IOUtils**：          通用IO流操作工具类
 - **StringCodingUtils**：字符串编码工具类
 - **stream包**：         IO流操作辅助类
+- 
 6. receiver包：通用广播接收器
 -----
 - **ScreenReceiver**：  屏幕接收器，可收到屏幕点亮、关闭的广播，并通过回调通知给调用者
-- **SmsReceiver**：     短信接收器，可获取收到短信的内容，并将内容反馈给调用者
+- **PhoneReceiver**：      电话监听，来电、去电、通话、挂断的监听以及来去电话号码的获取。
+- **SmsReceiver**：        短信接收器，可获取短信内容，发送者号码，短信中心号码等。
+
 7. utils包：常用工具类
 -----
 - **AndroidUtil**：     android信息， 获取android手机品牌、商家、版本号等信息
@@ -69,14 +72,10 @@ LiteCommon是一系列通用类、辅助类、工具类的集合，有以下特�
 - **TelephoneUtil**：   电话工具类，手机号、运营商、IMEI、IMSI等信息
 - **VibrateUtil**：     震动工具类，调用系统震动功能
 
-8. 升级：2015-3-9新增
+8. service包：通用服务
 -----
-receiver包：通用广播接收器
-- **PhoneReceiver**：      电话监听，来电、去电、通话、挂断的监听以及来去电话号码的获取。
-- **SmsReceiver**：        短信接收器，升级后可获取短信内容，发送者号码，短信中心号码等。
-
-service包：通用服务
 - **NotificationService**：通知监听，各类通知服务的监听，获取通知的简述、标题、内容等信息，可以获取诸如QQ、微信、淘宝、浏览器等所有的在通知栏提示的消息。
+
 
 关于作者（About Author）
 -----
