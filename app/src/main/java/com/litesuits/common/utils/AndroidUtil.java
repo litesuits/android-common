@@ -5,6 +5,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
+import android.provider.Settings;
 
 import com.litesuits.android.log.Log;
 import com.litesuits.common.io.FileUtils;
@@ -49,6 +50,7 @@ public class AndroidUtil {
         return mac;
     }
 
+
     /**
      * 获取 以太网 MAC 地址
      */
@@ -64,6 +66,17 @@ public class AndroidUtil {
             e.printStackTrace();
             return "unknown";
         }
+    }
+
+    /**
+     * 获取 ANDROID_ID
+     */
+    public static String getAndroidId(Context context) {
+        String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (Log.isPrint) {
+            Log.i(TAG, "ANDROID_ID ：" + androidId);
+        }
+        return androidId;
     }
 
     /**
