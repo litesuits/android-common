@@ -5,8 +5,12 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
-import com.litesuits.android.log.Log;
 
+import com.litesuits.android.log.Log;
+import com.litesuits.common.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,20 +22,48 @@ import java.util.Date;
  */
 public class AndroidUtil {
     private static final String TAG = AndroidUtil.class.getSimpleName();
+    //Ethernet Mac Address
+    private static final String ETH0_MAC_ADDRESS = "/sys/class/net/eth0/address";
 
     /**
-     * 获取 MAC 地址
+     * 获取 Wifi MAC 地址
      * <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
      */
+    @Deprecated
     public static String getMacAddress(Context context) {
+        return getWifiMacAddress(context);
+    }
+
+    /**
+     * 获取 Wifi MAC 地址
+     * <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+     */
+    public static String getWifiMacAddress(Context context) {
         //wifi mac地址
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         String mac = info.getMacAddress();
         if (Log.isPrint) {
-            Log.i(TAG, " MAC：" + mac);
+            Log.i(TAG, "WIFI MAC：" + mac);
         }
         return mac;
+    }
+
+    /**
+     * 获取 以太网 MAC 地址
+     */
+    public static String getEthernetMacAddress() {
+        try {
+            String mac = FileUtils.readFileToString(new File(ETH0_MAC_ADDRESS));
+            if (Log.isPrint) {
+                Log.i(TAG, "Ethernet MAC：" + mac);
+            }
+            return mac;
+        } catch (IOException e) {
+            Log.e(TAG, "IO Exception when getting eth0 mac address", e);
+            e.printStackTrace();
+            return "unknown";
+        }
     }
 
     /**
