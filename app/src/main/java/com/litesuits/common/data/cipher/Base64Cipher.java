@@ -19,8 +19,9 @@ public class Base64Cipher extends Cipher {
 
     @Override
     public byte[] decrypt(byte[] res) {
-        if(cipher != null) res = cipher.decrypt(res);
-        return Base64.decode(res, Base64.DEFAULT);
+        if(cipher == null) return Base64.decode(res, Base64.DEFAULT);
+        res=Base64.decode(res, Base64.DEFAULT);
+        return cipher.decrypt(res);;
     }
 
     @Override
