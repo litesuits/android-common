@@ -19,14 +19,18 @@ public class Base64Cipher extends Cipher {
 
     @Override
     public byte[] decrypt(byte[] res) {
-        if(cipher == null) return Base64.decode(res, Base64.DEFAULT);
-        res=Base64.decode(res, Base64.DEFAULT);
-        return cipher.decrypt(res);;
+        res = Base64.decode(res, Base64.DEFAULT);
+        if (cipher != null) {
+            res = cipher.decrypt(res);
+        }
+        return res;
     }
 
     @Override
     public byte[] encrypt(byte[] res) {
-        if(cipher != null) res = cipher.encrypt(res);
+        if (cipher != null) {
+            res = cipher.encrypt(res);
+        }
         return Base64.encode(res, Base64.DEFAULT);
     }
 }
