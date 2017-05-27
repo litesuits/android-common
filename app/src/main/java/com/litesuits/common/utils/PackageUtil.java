@@ -93,20 +93,24 @@ public class PackageUtil {
     }
 
 
-    public static int getAppVersionCode(Context context) {
-        if (context != null) {
+    public static String getAppVersionName(Context context) {
+        try {
             PackageManager pm = context.getPackageManager();
-            if (pm != null) {
-                PackageInfo pi;
-                try {
-                    pi = pm.getPackageInfo(context.getPackageName(), 0);
-                    if (pi != null) {
-                        return pi.versionCode;
-                    }
-                } catch (NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static int getAppVersionCode(Context context) {
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            return pi.versionCode;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
         }
         return -1;
     }

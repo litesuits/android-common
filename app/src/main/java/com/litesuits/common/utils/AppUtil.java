@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Process;
 
 import java.util.List;
 
@@ -16,9 +17,31 @@ import java.util.List;
 public class AppUtil {
 
     /**
+     * 是否是主进程
+     */
+    public static boolean isMainProcess(Context context) {
+        String procName = getCurrentProcessName(context);
+        return procName == null || procName.equalsIgnoreCase(context.getPackageName());
+    }
+
+    /**
+     * 获取当前进程名字
+     */
+    public static String getCurrentProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 调用系统分享
      */
-    public static void shareToOtherApp(Context context,String title,String content, String dialogTitle ) {
+    public static void shareToOtherApp(Context context, String title, String content, String dialogTitle) {
         Intent intentItem = new Intent(Intent.ACTION_SEND);
         intentItem.setType("text/plain");
         intentItem.putExtra(Intent.EXTRA_SUBJECT, title);
@@ -45,8 +68,6 @@ public class AppUtil {
 
     /**
      * 获取App包 信息版本号
-     * @param context
-     * @return
      */
     public PackageInfo getPackageInfo(Context context) {
         PackageManager packageManager = context.getPackageManager();
@@ -59,4 +80,8 @@ public class AppUtil {
         return packageInfo;
     }
 
+    public static void killTheApp() {
+        android.os.Process.killProcess(Process.myPid());
+        System.exit(0);
+    }
 }
