@@ -50,3 +50,19 @@ publish {
     desc = 'A powerful android common utils library.'           //description
     website = 'https://litesuits.com'
 }
+
+def libVersion = '1.2.0'
+task makeJar(type: Jar) {
+    // 指定生成的jar名
+    def rootDir = project.getRootDir();
+    def parentDir = project.getRootDir().getParentFile().getAbsolutePath();
+
+    delete 'build/libs/*.*'
+    archiveName 'android-common-' + libVersion + '.jar'
+    destinationDir = file('build/libs')
+    // 从哪里打包class文件
+    from('build/intermediates/classes/release/')
+    // 打包到jar后的目录结构
+    // 去掉不需要打包的目录和文件
+    exclude('test/', 'BuildConfig.class', 'R.class', 'R\$*.class', 'META-INF/')
+}
