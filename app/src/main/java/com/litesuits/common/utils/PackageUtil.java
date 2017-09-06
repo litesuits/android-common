@@ -182,16 +182,16 @@ public class PackageUtil {
     /**
      * 获取已安装的全部应用信息
      */
-    public static List<PackageInfo> getInsatalledPackages(Context context) {
+    public static List<PackageInfo> getInstalledPackages(Context context) {
         return context.getPackageManager().getInstalledPackages(0);
     }
 
     /**
      * 获取已安装的全部应用信息
      */
-    public static boolean isInsatalled(Context context, String pkg) {
+    public static boolean isInstalled(Context context, String pkg) {
         if (!Check.isEmpty(pkg)) {
-            List<PackageInfo> list = getInsatalledPackages(context);
+            List<PackageInfo> list = getInstalledPackages(context);
             if (!Check.isEmpty(list)) {
                 for (PackageInfo pi : list) {
                     if (pkg.equalsIgnoreCase(pi.packageName)) {
